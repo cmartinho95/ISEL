@@ -4,7 +4,7 @@ public class Main{
     public static void main(String[] args){
         SimpleGrade teste1 = new SimpleGrade("1.º teste", 12);
         Grade teste2 = new SimpleGrade("2.º teste", 14);
-        GreaterGrade melhor = new GreaterGrade("Melhor teste");
+        GreaterGrade melhor = new GreaterGrade("Melhor avaliação");
 
         melhor.addGrade(teste1);
         melhor.addGrade(teste2);
@@ -17,6 +17,7 @@ public class Main{
         melhorP.addGrade(p1);
         melhorP.addGrade(p2);
         melhor.addGrade(melhorP);
-        melhor.list("* ");
+        melhor.getValue();
+        melhor.list("*");
     }
 }

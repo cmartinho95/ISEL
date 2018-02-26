@@ -3,6 +3,8 @@ package grade_v2;
 public class GreaterGrade extends Grade{
     private int nrGrades;
     private Grade[] grades;
+    private int greaterValue;
+
     public GreaterGrade(String description){
         super(description);
         grades = new Grade[10];
@@ -26,5 +28,12 @@ public class GreaterGrade extends Grade{
             grades[i].list(prefix + prefix);
         }
     }
-    public int getValue(){ return 0;}
+    public int getValue(){
+        for (int i = 1; i < nrGrades; i++){
+            if (grades[i].getValue() > grades[i - 1].getValue()){
+                greaterValue = grades[i].getValue();
+            }
+        }
+        return greaterValue;
+    }
 }
