@@ -1,0 +1,75 @@
+﻿
+Name ShiftRegister ;
+
+Device p22v10 ;
+
+/* *******************    Entradas   ************** */
+
+PIN 1 = clock;       /* Clock */
+
+PIN[6..4] = [S2..0]; /* Número de Shifts a efectuar */
+
+PIN 2 = enable;      /* Output Enable das Saídas */
+
+PIN 3 = sin; /* Serial-in Left */
+
+PIN 8 = clr; /* Clear Síncrono */
+
+/* ******************    Saídas   **************** */
+
+PIN [22..15]=[Q7..0];
+/* Saídas do Registo */
+
+/*****    Declarações e Variáveis Intermédias   *****/
+
+field shift = [S2..0]; /* Número de Shifts */
+field output = [Q7..0]; 
+/* Saídas */
+
+output.sp = 'h'00;
+
+output.ar = 'h'00;
+
+output.oe = enable;
+
+/* Controle tri-state */
+
+/*  ************   Equações Lógicas  ***********  */
+
+output.d = !clr&([Q7, Q6, Q5, Q4, Q3, Q2, Q1, Q0] & shift:0
+
+# [Q0, Q7, Q6, Q5, Q4, Q3, Q2, Q1] & shift:1
+
+# [Q1, Q0, Q7, Q6, Q5, Q4, Q3, Q2] & shift:2
+
+# [Q2, Q1, Q0, Q7, Q6, Q5, Q4, Q3] & shift:3
+
+# [Q3, Q2, Q1, Q0, Q7, Q6, Q5, Q4] & shift:4
+
+# [Q4, Q3, Q2, Q1, Q0, Q7, Q6, Q5] & shift:5
+
+# [Q5, Q4, Q3, Q2, Q1, Q0, Q7, Q6] & shift:6
+
+# [Q6, Q5, Q4, Q3, Q2, Q1, Q0, Q7] & shift:7);
+
+append output.d=!clr&sin&'b'10000000;
+
+............
+enableShift = wr;
+
+field shift = [S2..0]; /* Numero de Shifts */
+field output = [D5..0]; /* Saidas */
+
+output.sp = 'h'00;
+output.ar = 'h'00;
+output.oe = enableShift;
+
+output.d =
+[Q5, Q4, Q3, Q2, Q1, Q0] & shift:0
+# [Q0, Q5, Q4, Q3, Q2, Q1] & shift:1
+# [Q1, Q0, Q5, Q4, Q3, Q2] & shift:2
+# [Q2, Q1, Q0, Q5, Q4, Q3] & shift:3
+# [Q3, Q2, Q1, Q0, Q5, Q4] & shift:4
+# [Q4, Q3, Q2, Q1, Q0, Q5] & shift:5;
+
+append output.d=!data & 'b'100000;

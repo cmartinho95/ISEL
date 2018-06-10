@@ -1,44 +1,64 @@
+import java.util.Arrays;
+
 public class Sorting{
 
     public static void main(String[] args){
-        int[] numbers = {2,5,3,1,4};
+        int[] numbers1 = {2,5,3,1,4,0};
+        int[] numbers2 = {10,12,8,6,16,0};
 
-        int[] newArray = sortUp(numbers);
+        System.out.println(Arrays.toString(numbers1));
+        insert(numbers1, 6, 5);
+        sortUp(numbers1);
+        System.out.println("Sorted:" + Arrays.toString(numbers1));
 
-        for (int h = 0; h < newArray.length; h++){
-            System.out.println(newArray[h]);
+        System.out.println(Arrays.toString(numbers2));
+        insert(numbers2, 14, 5);
+        sortDown(numbers2);
+        System.out.println("Sorted:" + Arrays.toString(numbers2));
+
+
+    }
+
+    public static void sortDown(int[] array){
+
+        for (int i = 0; i < array.length; ++i){
+            int idxMax = i;
+            int max = array[i];
+
+            for(int j = i + 1; j < array.length; ++j){
+                if (array[j] > max){
+                    idxMax = j;
+                    max = array[j];
+                }
+            }
+            array[idxMax] = array[i];
+            array[i] = max;
         }
     }
 
-    public static int[] sortUp(int[] numbers){ // ordem crescente
-        int[] sorted = new int[numbers.length];
-        int minvalue = 0;
-        int maxvalue = 0;
-        int j = 0;
+    public static void sortUp(int[] array){
 
-        for (int i = 0; i < numbers.length - 1; i++){
-            if (numbers[i] < minvalue){
-                minvalue = numbers[i];
-                for (j = 0; j < numbers.length - 1; j++){
-                    sorted[j + 1] = sorted[j];
-                }
-                sorted[0] = minvalue;
-            }
+        for(int i = 0; i < array.length; ++i){
 
-            if (numbers[i] > maxvalue){
-                maxvalue = numbers[i];
-                for (j = numbers.length - 1; j > 0; j--){
-                    sorted[j - 1] = sorted[j];
-                }
-                sorted[numbers.length - 1] = maxvalue;
-            }
-            else {
-                if (numbers[i] > numbers[i + 1]){
-                    sorted[i] = numbers[i + 1];
-                    sorted[i + 1] = numbers[i];
+            int idxMin = i;
+            int min = array[i];
+            for(int j = i + 1; j < array.length; ++j){
+                if(array[j] < min){
+                    idxMin = j;
+                    min = array[j];
                 }
             }
+            array[idxMin] = array[i];
+            array[i] = min;
         }
-        return sorted;
+    }
+
+    public static void insert(int[] array, int n, int nElems){ //nElems difs de 0, actual
+        int pos = 0;
+        while(pos < nElems && array[pos] < n) ++pos;
+        for(int i = nElems; i > pos; --i){
+            array[i] = array[i - 1];
+        }
+        array[pos] = n;
     }
 }

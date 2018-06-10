@@ -43,8 +43,6 @@ public class ArrayUtils {
         array[pos] = n;
     }
 
-
-
     public static void main(String[]args){
         int[] array = {25,20,10,15,5,0};
         sort(array);
