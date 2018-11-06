@@ -1,0 +1,65 @@
+/**
+ *  Testde de 2ª Època do semestre de Inverno de 2016/17
+ */
+ 
+4. [2,5] Considere o conteúdo dos ficheiro fonte f1.c e f2.c.
+ 
+/* f1.c */
+#include <stdio.h>
+ 
+char *increment(char *p, size_t off);
+ 
+int proc(void *);
+ 
+extern int BIAS;
+ 
+static unsigned short data[] = { 3, 0, 0, 0, 10, 0, 20, 0, 30, 0 };
+ 
+int main() {
+	printf("%d\n", proc(data));
+	return 0;
+}
+ 
+/* f2.c */
+#include <stdio.h>
+#define BIAS 1000
+unsigned int data = BIAS;
+struct vector {
+	size_t len;
+	int data[];
+};
+
+int proc(struct vector *pv) {
+	int r;
+	for (r = 0; pv->len > 0; pv->len--)
+		r += pv->data[pv->len - 1];
+	return r + data;
+} 
+  
+a) [1,5] Indique o conteúdo das tabelas de símbolos dos ficheiros objecto relocáveis resultantes da compilação d
+   f1.c e f2.c. Para cada símbolo, indique o nome, a secção e o respectivo âmbito (e.g., local ou global).
+
+Resposta:
+
+Tabela de símbolos de f1.o
+d	data	data, local
+T	main	text, global
+U	printf	undefined
+U	proc	undefined
+
+Nota: "BIAS" e "increment" são declarados como externos mas não são utilizados, pelo que não constam a tabela
+      de símbolos.
+
+Tabela de símbolos de f2.o
+D	data	data, local
+T	proc	text, global
+ 
+b) [1] Se considerar que os ficheiros objecto f1.o e f2.o podem ser combinados pelo linker com sucesso gerando um
+   ficheiro executável, diga o que é mostrado na consola quando o mesmo executa. Se, pelo contrário, considerar que
+   o linker falhará a combinação, diga qual a razão ou razões pelas quais isso acontece.
+  
+Resposta:
+Os dois programas combinam e geram um executável válido.
+Ao executar é mostrado na consola o número 1060.
+
+   

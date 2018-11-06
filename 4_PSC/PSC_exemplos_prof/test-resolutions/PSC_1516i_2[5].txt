@@ -1,0 +1,63 @@
+/**
+ * Teste de 2ª Época do semestre de Inverno de 2015/16
+ */
+ 
+5. [2 ] Considere o seguinte conteúdo de dois ficheiro fonte C.
+
+/* f1.c */
+extern int x;
+extern int tab[];
+
+int f(int);
+
+int g(char val) {
+	return x += f(tab[val]);
+}
+
+int main() {
+	return g(2);
+}
+
+/* f2.c */
+char x = ‘x’;
+static int tab[] = {1, 2, 3, 5};
+
+static int g(char i) {
+	return tab[i & 3];
+}
+
+int f(int x) {
+	static int a =56;
+	return a *= g(x);
+}
+
+
+a) [1] Diga quais as tabelas de símbolos associadas aos módulos objecto que resultam da compilação de f1.c e
+f2.c. Para cada símbolo, indique o nome, a secção e o respectivo âmbito (i.e., global ou interno).
+
+Resposta:
+
+Tabela de símbolos de f1.o
+U	f		undefined
+T	g		text, global
+T	main	text, global
+U	tab		undefined
+U	x		undefined
+Nota: o símbolo "f" não consta na tabela de símbolos porque tendo sido declarado como "extern" não é referenciado.
+
+Tabela se símbols de f2.o
+d	a.1838	data, local to a function "f", so its name is decorated to generate unique names
+T	f		text, global
+t	g		text, local
+d	tab		data, local
+D	x		data, global
+
+b) [1] Diga se a ligação entre os módulos f 1.o e f 2.o produz erros e, em caso afirmativo, qual o motivo porque
+ocorrem os erros.
+
+Resposta:
+Ocorre um erro de de ligação porque o ficheiro f1.c faz uma referência ao símbolo externo "tab" que não é público no
+modulo f2.c. Está definido, mas é local, pelo que não é considerado pelo linker para resolver referências externas.
+
+
+ 
